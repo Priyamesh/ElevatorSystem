@@ -4,9 +4,10 @@ from rest_framework import serializers
 class ElevatorSeriazers(serializers.ModelSerializer):
     class Meta:
         model = Elevator
-        fields = '__all__'
+        exclude = ('createdAt', 'updatedAt')
+        
 
 class ElevatorRequestSeriazers(serializers.ModelSerializer):
     class Meta:
         model = ElevatorRequest
-        fields = '__all__'
+        exclude = ('createdAt', 'updatedAt')

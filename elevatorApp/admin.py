@@ -3,5 +3,12 @@ from elevatorApp.models import Elevator, ElevatorRequest
 # Register your models here.
 
 
-admin.site.register(Elevator)
-admin.site.register(ElevatorRequest)
+
+class ElevatorAdmin(admin.ModelAdmin):
+    list_display = ('id', 'state', 'currentFloor', 'status')
+
+class ElevatorRequestAdmin(admin.ModelAdmin):
+    list_display = ('id', 'elevator', 'sourceFloor', 'destinationFloor', 'status')
+
+admin.site.register(Elevator,ElevatorAdmin)
+admin.site.register(ElevatorRequest,ElevatorRequestAdmin)

@@ -1,14 +1,20 @@
 from django.db import models
 
 ELEVATOR_STATE_CHOICES = (('working','WORKING'),
-                          ('maintenance ','MAINTENANCE'))
+                          ('maintenance','MAINTENANCE'))
 
 ELEVATOR_STATUS_CHOICES = (('idle','IDLE'),
-                          ('moving ','MOVING'))
+                          ('movingup','MOVINGUP'),
+                          ('movingdown','MOVINGDOWN'))
 
 DOOR_STATE_CHOICES = (
     ("open", "OPEN"),
     ("close", "CLOSE"),  
+)
+
+ELEVATOR_REQUEST_CHOICES = (
+    ("pending", "PENDING"),
+    ("completed", "COMPLETED"),  
 )
 
 
@@ -25,8 +31,14 @@ class Elevator(TimestampModel):
     doorState = models.CharField(choices=DOOR_STATE_CHOICES, default=DOOR_STATE_CHOICES[0][0], max_length=20)
     status = models.CharField(choices=ELEVATOR_STATUS_CHOICES, default=ELEVATOR_STATUS_CHOICES[0][0], max_length=20)
 
+    def __str__(self) -> str:
+        return str(self.id)
+
 class ElevatorRequest(TimestampModel):
     elevator = models.ForeignKey(Elevator, on_delete=models.CASCADE)
-    sourceFloor = models.IntegerField()
-    destinationFloor = models.IntegerField()
+    sourceFloor = models.IntegerField(null=True, blank=True)
+    destinationFloor = models.IntegerField(null=True, blank=True)
+    status = models.CharField(choices=ELEVATOR_REQUEST_CHOICES, default=ELEVATOR_REQUEST_CHOICES[0][0], max_length=20)
 
+    def __str__(self) -> str:
+        return str(self.id)
